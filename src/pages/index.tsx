@@ -4,6 +4,7 @@ import Image from "next/image"
 import reactLogo from "../assets/react.svg"
 import tauriLogo from "../assets/tauri.svg"
 import nextLogo from "../assets/next.svg"
+import Button from "../components/atoms/button"
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("")
@@ -20,6 +21,10 @@ function App() {
   return (
     <div className="container">
       <h1>Welcome to Tauri!</h1>
+
+      <p>
+        <Button>Hey</Button>
+      </p>
 
       <div className="row">
         <span className="logos">
