@@ -29,6 +29,7 @@ pub struct DoujinImages {
 }
 
 pub type DoujinPages = Vec<DoujinPage>;
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DoujinPage {
     pub t: String,
@@ -39,13 +40,15 @@ pub struct DoujinPage {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DoujinTag {
     pub id: u32,
-    pub r#type: String,
+    #[serde(rename = "type")]
+    pub tag: String,
     pub name: String,
     pub url: String,
     pub count: u32,
 }
 
 pub type DoujinTags = Vec<DoujinTag>;
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DoujinSearch {
     pub result: Vec<Doujin>,

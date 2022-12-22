@@ -13,7 +13,7 @@ function App() {
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     setGreetMsg(await invoke("greet", { name }))
-    console.log(await invoke("find_doujin", { doujinId: "177013" }))
+    console.log(await invoke("find_doujin", { doujinId: "432748" }))
     // console.log(await invoke("search_doujin", { query: "metamorphosis" }))
     // console.log(await invoke("tag_doujin", { tag: "anal" }))
   }
