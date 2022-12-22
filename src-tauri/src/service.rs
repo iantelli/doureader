@@ -22,9 +22,6 @@ impl Serialize for CommandError {
 
 pub type CommandResult<T, E = CommandError> = anyhow::Result<T, E>;
 
-// build client with custom headers
-
-// get doujin by id
 impl Doujin {
     pub async fn create_client() -> reqwest::Client {
         let mut headers = header::HeaderMap::new();
@@ -63,7 +60,7 @@ impl Doujin {
         Ok(body)
     }
 
-    // get doujin by search
+    // search for a doujin by query
     pub async fn search_doujin(query: String) -> CommandResult<Vec<Self>> {
         let url = "https://nhentai.net/api/galleries/search";
         let client = Self::create_client().await;
@@ -76,10 +73,10 @@ impl Doujin {
             .json::<DoujinSearch>()
             .await?;
 
-        Ok(dbg!(res.result))
+        Ok(res.result)
     }
 
-    // get doujin by tag
+    // search for related doujins by tag
     pub async fn tag_doujin(tag: String) -> CommandResult<Vec<Self>> {
         let url = "https://nhentai.net/api/galleries/search";
         let client = Self::create_client().await;
@@ -92,6 +89,19 @@ impl Doujin {
             .json::<DoujinSearch>()
             .await?;
 
-        Ok(dbg!(res.result))
+        Ok(res.result)
+    }
+
+    // search for related doujins by doujin id
+    pub async fn related_doujin(doujin_id: String) -> CommandResult<Vec<Self>> {
+        let url = format!(
+            "https://nhentai.net/api/gallery/{}/related",
+            doujin_id.to_string()
+        );
+        let client = Self::create_client().await;
+
+        let res = client.get(url).send().await?.json::<DoujinSearch>().await?;
+
+        Ok(res.result)
     }
 }
