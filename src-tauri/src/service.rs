@@ -1,5 +1,9 @@
+use std::{fmt, num::NonZeroI32};
+
 use reqwest::header;
-use serde::{ser::Serializer, Serialize};
+use serde::{de::Visitor, ser::Serializer, Deserialize, Deserializer, Serialize};
+
+use crate::model::DynamicDoujin;
 
 use super::model::{Doujin, DoujinSearch};
 
@@ -61,7 +65,7 @@ impl Doujin {
     }
 
     // search for a doujin by query
-    pub async fn search_doujin(query: String) -> CommandResult<Vec<Self>> {
+    pub async fn search_doujin(query: &str) -> CommandResult<Vec<DynamicDoujin>> {
         let url = "https://nhentai.net/api/galleries/search";
         let client = Self::create_client().await;
 
@@ -76,24 +80,8 @@ impl Doujin {
         Ok(res.result)
     }
 
-    // search for related doujins by tag
-    pub async fn tag_doujin(tag: String) -> CommandResult<Vec<Self>> {
-        let url = "https://nhentai.net/api/galleries/search";
-        let client = Self::create_client().await;
-
-        let res = client
-            .get(url)
-            .query(&[("tag", tag)])
-            .send()
-            .await?
-            .json::<DoujinSearch>()
-            .await?;
-
-        Ok(res.result)
-    }
-
     // search for related doujins by doujin id
-    pub async fn related_doujin(doujin_id: String) -> CommandResult<Vec<Self>> {
+    pub async fn related_doujin(doujin_id: String) -> CommandResult<Vec<DynamicDoujin>> {
         let url = format!(
             "https://nhentai.net/api/gallery/{}/related",
             doujin_id.to_string()
@@ -103,5 +91,48 @@ impl Doujin {
         let res = client.get(url).send().await?.json::<DoujinSearch>().await?;
 
         Ok(res.result)
+    }
+}
+
+#[derive(Clone, Copy, Debug, Serialize)]
+#[serde(transparent)]
+pub struct MaybeI32OrString(NonZeroI32);
+
+impl<'de> Deserialize<'de> for MaybeI32OrString {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        struct I32OrStringVisitor;
+
+        impl<'de> Visitor<'de> for I32OrStringVisitor {
+            type Value = MaybeI32OrString;
+
+            fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+                fmt.write_str("integer or string")
+            }
+
+            fn visit_u64<E>(self, val: u64) -> Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                match NonZeroI32::new(val as i32) {
+                    Some(val) => Ok(MaybeI32OrString(val)),
+                    None => Err(E::custom("invalid integer value")),
+                }
+            }
+
+            fn visit_str<E>(self, val: &str) -> Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                match val.parse::<u64>() {
+                    Ok(val) => self.visit_u64(val),
+                    Err(_) => Err(E::custom("failed to parse integer")),
+                }
+            }
+        }
+
+        deserializer.deserialize_any(I32OrStringVisitor)
     }
 }

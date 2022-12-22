@@ -1,9 +1,9 @@
 pub mod model;
 pub mod service;
 
-use tauri::{command, Builder};
+use model::{Doujin, DynamicDoujin};
 
-use model::Doujin;
+use tauri::{command, Builder};
 
 #[cfg_attr(
     all(not(debug_assertions), target_os = "windows"),
@@ -22,19 +22,13 @@ async fn find_doujin(doujin_id: String) -> Result<Doujin, String> {
 }
 
 #[command]
-async fn find_doujins_by_tag(tag: String) -> Result<Vec<Doujin>, String> {
-    let doujin = Doujin::tag_doujin(tag).await.unwrap();
-    Ok(doujin)
-}
-
-#[command]
-async fn find_doujins_by_search(query: String) -> Result<Vec<Doujin>, String> {
+async fn find_doujins_by_search(query: &str) -> Result<Vec<DynamicDoujin>, String> {
     let doujin = Doujin::search_doujin(query).await.unwrap();
     Ok(doujin)
 }
 
 #[command]
-async fn find_related_doujins(doujin_id: String) -> Result<Vec<Doujin>, String> {
+async fn find_related_doujins(doujin_id: String) -> Result<Vec<DynamicDoujin>, String> {
     let doujin = Doujin::related_doujin(doujin_id).await.unwrap();
     Ok(doujin)
 }
@@ -44,7 +38,6 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             greet,
             find_doujin,
-            find_doujins_by_tag,
             find_doujins_by_search,
             find_related_doujins
         ])
