@@ -54,8 +54,8 @@ impl Doujin {
         client
     }
 
-    pub async fn get_doujin(doujin_id: String) -> CommandResult<Self> {
-        let url = format!("https://nhentai.net/api/gallery/{}", doujin_id.to_string());
+    pub async fn get_doujin(doujin_id: &str) -> CommandResult<Self> {
+        let url = format!("https://nhentai.net/api/gallery/{}", doujin_id);
         let client = Self::create_client().await;
         let res = client.get(url).send().await?;
 
@@ -81,11 +81,8 @@ impl Doujin {
     }
 
     // search for related doujins by doujin id
-    pub async fn related_doujin(doujin_id: String) -> CommandResult<Vec<DynamicDoujin>> {
-        let url = format!(
-            "https://nhentai.net/api/gallery/{}/related",
-            doujin_id.to_string()
-        );
+    pub async fn related_doujin(doujin_id: &str) -> CommandResult<Vec<DynamicDoujin>> {
+        let url = format!("https://nhentai.net/api/gallery/{}/related", doujin_id);
         let client = Self::create_client().await;
 
         let res = client.get(url).send().await?.json::<DoujinSearch>().await?;

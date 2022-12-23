@@ -16,7 +16,7 @@ fn greet(name: &str) -> String {
 }
 
 #[command]
-async fn find_doujin(doujin_id: String) -> Result<Doujin, String> {
+async fn find_doujin(doujin_id: &str) -> Result<Doujin, String> {
     let doujin = Doujin::get_doujin(doujin_id).await.unwrap();
     Ok(doujin)
 }
@@ -28,7 +28,7 @@ async fn find_doujins_by_search(query: &str) -> Result<Vec<DynamicDoujin>, Strin
 }
 
 #[command]
-async fn find_related_doujins(doujin_id: String) -> Result<Vec<DynamicDoujin>, String> {
+async fn find_related_doujins(doujin_id: &str) -> Result<Vec<DynamicDoujin>, String> {
     let doujin = Doujin::related_doujin(doujin_id).await.unwrap();
     Ok(doujin)
 }
