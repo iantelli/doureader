@@ -70,3 +70,6 @@ pub struct DynamicDoujin {
     pub num_pages: u16,
     pub num_favorites: u32,
 }
+
+// Image URLs are in the form of:
+// https://i.nhentai.net/galleries/{media_id}/{page_number}.{file_format}
