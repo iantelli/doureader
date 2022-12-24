@@ -1,14 +1,16 @@
 import { twMerge } from "tailwind-merge"
 
-export interface ButtonProps {
+type ButtonProps = {
   children: React.ReactNode
-  className?: string
+  textColor?: string
+  buttonColor?: string
   onClick?: () => void
+  className?: string
 }
 
-export default function Button({ children, className, onClick }: ButtonProps) {
+export default function Button({ children, textColor, buttonColor, onClick, className }: ButtonProps) {
   return (
-    <button className={twMerge("px-4 py-2 rounded-md font-semibold text-white", className)} onClick={onClick}>
+    <button className={twMerge(textColor ?? "text-white", buttonColor ?? "bg-stone-700", "px-4 py-2 rounded-md", className ?? "")} onClick={onClick}>
       {children}
     </button>
   )

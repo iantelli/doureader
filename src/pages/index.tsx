@@ -1,63 +1,34 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { invoke } from "@tauri-apps/api/tauri"
 import Image from "next/image"
-import reactLogo from "../assets/react.svg"
-import tauriLogo from "../assets/tauri.svg"
-import nextLogo from "../assets/next.svg"
 import Button from "../components/atoms/button"
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState("")
-  const [name, setName] = useState("")
+export default function App() {
+  const [doujin, setDoujin] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }))
-    console.log(await invoke("find_doujin", { doujinId: "177013" }))
-    console.log(await invoke("find_doujins_by_search", { query: "metamorphosis" }))
-    console.log(await invoke("find_related_doujins", { doujinId: "177013" }))
-  }
+  useEffect(() => {
+    ;(async () => {
+      const doujin = await invoke("find_doujin", { doujinId: "177013" })
+      setDoujin(doujin)
+      setLoading(false)
+    })()
+  }, [])
 
   return (
-    <div className="container">
-      <h1>Welcome to Tauri!</h1>
-
+    <>
+      <h1>Welcome to Doureader!</h1>
       <p>
         <Button>Hey</Button>
       </p>
-
-      <div className="row">
-        <span className="logos">
-          <a href="https://nextjs.org" target="_blank">
-            <Image width={144} height={144} src={nextLogo} className="logo next" alt="Next logo" />
-          </a>
-        </span>
-        <span className="logos">
-          <a href="https://tauri.app" target="_blank">
-            <Image width={144} height={144} src={tauriLogo} className="logo tauri" alt="Tauri logo" />
-          </a>
-        </span>
-        <span className="logos">
-          <a href="https://reactjs.org" target="_blank">
-            <Image width={144} height={144} src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </span>
-      </div>
-
-      <p>Click on the Tauri, Next, and React logos to learn more.</p>
-
-      <div className="row">
-        <div>
-          <input id="greet-input" onChange={(e) => setName(e.currentTarget.value)} placeholder="Enter a name..." />
-          <button type="button" onClick={() => greet()}>
-            Greet
-          </button>
-        </div>
-      </div>
-
-      <p>{greetMsg}</p>
-    </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <h2>{doujin.title.pretty}</h2>
+          <p>{doujin.title.english}</p>
+        </>
+      )}
+    </>
   )
 }
-
-export default App
