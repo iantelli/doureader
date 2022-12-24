@@ -3,8 +3,6 @@ use std::{fmt, num::NonZeroI32};
 use reqwest::header;
 use serde::{de::Visitor, ser::Serializer, Deserialize, Deserializer, Serialize};
 
-use crate::model::DynamicDoujin;
-
 use super::model::{Doujin, DoujinSearch};
 
 #[derive(Debug, thiserror::Error)]
@@ -65,13 +63,14 @@ impl Doujin {
     }
 
     // search for a doujin by query
-    pub async fn search_doujin(query: &str) -> CommandResult<Vec<DynamicDoujin>> {
+    pub async fn search_doujin(query: &str, page: &str) -> CommandResult<Vec<Self>> {
         let url = "https://nhentai.net/api/galleries/search";
         let client = Self::create_client().await;
 
         let res = client
             .get(url)
             .query(&[("query", query)])
+            .query(&[("page", page)])
             .send()
             .await?
             .json::<DoujinSearch>()
@@ -81,8 +80,48 @@ impl Doujin {
     }
 
     // search for related doujins by doujin id
-    pub async fn related_doujin(doujin_id: &str) -> CommandResult<Vec<DynamicDoujin>> {
+    pub async fn related_doujin(doujin_id: &str) -> CommandResult<Vec<Self>> {
         let url = format!("https://nhentai.net/api/gallery/{}/related", doujin_id);
+        let client = Self::create_client().await;
+
+        let res = client.get(url).send().await?.json::<DoujinSearch>().await?;
+
+        Ok(res.result)
+    }
+
+    pub async fn tag_doujin(tag_id: &str, page: &str) -> CommandResult<Vec<Self>> {
+        let url = "https://nhentai.net/api/galleries/tagged";
+        let client = Self::create_client().await;
+
+        let res = client
+            .get(url)
+            .query(&[("tag_id", tag_id)])
+            .query(&[("page", page)])
+            .send()
+            .await?
+            .json::<DoujinSearch>()
+            .await?;
+
+        Ok(res.result)
+    }
+
+    pub async fn get_all_doujin(page: &str) -> CommandResult<Vec<Self>> {
+        let url = "https://nhentai.net/api/galleries/all";
+        let client = Self::create_client().await;
+
+        let res = client
+            .get(url)
+            .query(&[("page", page)])
+            .send()
+            .await?
+            .json::<DoujinSearch>()
+            .await?;
+
+        Ok(res.result)
+    }
+
+    pub async fn get_popular_doujin() -> CommandResult<Vec<Self>> {
+        let url = "https://nhentai.net/api/galleries/popular";
         let client = Self::create_client().await;
 
         let res = client.get(url).send().await?.json::<DoujinSearch>().await?;

@@ -5,7 +5,7 @@ use super::service::MaybeI32OrString;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Doujin {
-    pub id: u32,
+    pub id: MaybeI32OrString,
     pub media_id: String,
     pub title: DoujinTitle,
     pub images: DoujinImages,
@@ -53,22 +53,9 @@ pub type DoujinTags = Vec<DoujinTag>;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DoujinSearch {
-    pub result: Vec<DynamicDoujin>,
+    pub result: Vec<Doujin>,
     pub num_pages: Option<Value>,
     pub per_page: Option<Value>,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct DynamicDoujin {
-    pub id: MaybeI32OrString,
-    pub media_id: String,
-    pub title: DoujinTitle,
-    pub images: DoujinImages,
-    pub scanlator: String,
-    pub upload_date: u32,
-    pub tags: DoujinTags,
-    pub num_pages: u16,
-    pub num_favorites: u32,
 }
 
 // Image URLs are in the form of:
