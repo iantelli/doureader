@@ -8,5 +8,9 @@ type BodyTextProps = {
 }
 
 export default function ({ children, textSize, textColor, className }: BodyTextProps) {
-  return <p className={twMerge(textSize ?? "text-base", textColor ?? "text-white", "font-body", className ?? "")}>{children}</p>
+  return (
+    <p className={twMerge(textSize ?? "text-base", textColor ?? "text-white", "font-body", className ?? "")}>
+      {children}
+    </p>
+  )
 }

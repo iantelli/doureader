@@ -8,5 +8,9 @@ type SubHeaderTextProps = {
 }
 
 export default function ({ children, textSize, textColor, className }: SubHeaderTextProps) {
-  return <h2 className={twMerge(textSize ?? "text-2xl", textColor ?? "text-white", "font-sub", className ?? "")}>{children}</h2>
+  return (
+    <h2 className={twMerge(textSize ?? "text-2xl", textColor ?? "text-white", "font-sub", className ?? "")}>
+      {children}
+    </h2>
+  )
 }
