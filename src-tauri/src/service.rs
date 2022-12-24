@@ -5,25 +5,6 @@ use serde::{de::Visitor, ser::Serializer, Deserialize, Deserializer, Serialize};
 
 use super::model::{Doujin, DoujinSearch};
 
-#[derive(Debug, thiserror::Error)]
-pub enum CommandError {
-    #[error("reqwest error: {0}")]
-    Reqwest(#[from] reqwest::Error),
-}
-
-impl Serialize for CommandError {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        match self {
-            CommandError::Reqwest(e) => serializer.serialize_str(&e.to_string()),
-        }
-    }
-}
-
-pub type CommandResult<T, E = CommandError> = anyhow::Result<T, E>;
-
 impl Doujin {
     pub async fn create_client() -> reqwest::Client {
         let mut headers = header::HeaderMap::new();
@@ -52,6 +33,7 @@ impl Doujin {
         client
     }
 
+    // get doujin by doujin id
     pub async fn get_doujin(doujin_id: &str) -> CommandResult<Self> {
         let url = format!("https://nhentai.net/api/gallery/{}", doujin_id);
         let client = Self::create_client().await;
@@ -62,7 +44,7 @@ impl Doujin {
         Ok(body)
     }
 
-    // search for a doujin by query
+    // search for a doujin by query - 25 per page
     pub async fn search_doujin(query: &str, page: &str) -> CommandResult<Vec<Self>> {
         let url = "https://nhentai.net/api/galleries/search";
         let client = Self::create_client().await;
@@ -89,6 +71,7 @@ impl Doujin {
         Ok(res.result)
     }
 
+    // finds doujins by tag id - 25 per page
     pub async fn tag_doujin(tag_id: &str, page: &str) -> CommandResult<Vec<Self>> {
         let url = "https://nhentai.net/api/galleries/tagged";
         let client = Self::create_client().await;
@@ -105,6 +88,7 @@ impl Doujin {
         Ok(res.result)
     }
 
+    // gets all doujins - 25 per page
     pub async fn get_all_doujin(page: &str) -> CommandResult<Vec<Self>> {
         let url = "https://nhentai.net/api/galleries/all";
         let client = Self::create_client().await;
@@ -119,16 +103,28 @@ impl Doujin {
 
         Ok(res.result)
     }
+}
 
-    pub async fn get_popular_doujin() -> CommandResult<Vec<Self>> {
-        let url = "https://nhentai.net/api/galleries/popular";
-        let client = Self::create_client().await;
 
-        let res = client.get(url).send().await?.json::<DoujinSearch>().await?;
+#[derive(Debug, thiserror::Error)]
+pub enum CommandError {
+    #[error("reqwest error: {0}")]
+    Reqwest(#[from] reqwest::Error),
+}
 
-        Ok(res.result)
+// for serializing errors so they can be sent to the frontend
+impl Serialize for CommandError {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match self {
+            CommandError::Reqwest(e) => serializer.serialize_str(&e.to_string()),
+        }
     }
 }
+
+pub type CommandResult<T, E = CommandError> = anyhow::Result<T, E>;
 
 #[derive(Clone, Copy, Debug, Serialize)]
 #[serde(transparent)]
