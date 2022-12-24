@@ -22,7 +22,7 @@ export interface DoujinImages {
   thumbnail: DoujinPage
 }
 
-type DoujinPages = Array<DoujinPage>
+export type DoujinPages = Array<DoujinPage>
 
 export interface DoujinPage {
   t: string
@@ -38,7 +38,7 @@ export interface DoujinTag {
   count: number
 }
 
-type DoujinTags = Array<DoujinTag>
+export type DoujinTags = Array<DoujinTag>
 
 export interface DoujinSearch {
   result: Array<Doujin>
