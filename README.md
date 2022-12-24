@@ -7,7 +7,8 @@ Desktop app for reading and downloading doujinshi
 ## Todo
 
 - [x] Add nhentai source
-  - [ ] Find a way to bypass CloudFlare bot check
+  - [x] Find a way to bypass CloudFlare bot check (Solution can use some improvement)
+  - [x] Display images
 - [ ] Download doujin
 - [ ] Search/Sort by tags
 - [ ] Logo/App Design
