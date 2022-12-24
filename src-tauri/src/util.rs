@@ -72,9 +72,9 @@ pub type CommandResult<T, E = CommandError> = anyhow::Result<T, E>;
 
 #[derive(Clone, Copy, Debug, Serialize)]
 #[serde(transparent)]
-pub struct MaybeI32OrString(NonZeroI32);
+pub struct I32OrString(NonZeroI32);
 
-impl<'de> Deserialize<'de> for MaybeI32OrString {
+impl<'de> Deserialize<'de> for I32OrString {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
@@ -82,7 +82,7 @@ impl<'de> Deserialize<'de> for MaybeI32OrString {
         struct I32OrStringVisitor;
 
         impl<'de> Visitor<'de> for I32OrStringVisitor {
-            type Value = MaybeI32OrString;
+            type Value = I32OrString;
 
             fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
                 fmt.write_str("integer or string")
@@ -93,7 +93,7 @@ impl<'de> Deserialize<'de> for MaybeI32OrString {
                 E: serde::de::Error,
             {
                 match NonZeroI32::new(val as i32) {
-                    Some(val) => Ok(MaybeI32OrString(val)),
+                    Some(val) => Ok(I32OrString(val)),
                     None => Err(E::custom("invalid integer value")),
                 }
             }

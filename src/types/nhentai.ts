@@ -46,5 +46,10 @@ export interface DoujinSearch {
   per_page?: number
 }
 
+export interface Gallery {
+  doujin: Doujin
+  urls: Array<string>
+}
+
 // Image URLs are in the form of:
 // https://i.nhentai.net/galleries/{media_id}/{page_number}.{file_format}

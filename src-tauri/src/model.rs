@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use super::util::MaybeI32OrString;
+use super::util::I32OrString;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Doujin {
-    pub id: MaybeI32OrString,
+    pub id: I32OrString,
     pub media_id: String,
     pub title: DoujinTitle,
     pub images: DoujinImages,
@@ -34,9 +34,12 @@ pub type DoujinPages = Vec<DoujinPage>;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DoujinPage {
-    pub t: FileExtension,
-    pub w: u16,
-    pub h: u16,
+    #[serde(rename = "t")]
+    pub ext: FileExtension,
+    #[serde(rename = "w")]
+    pub width: u16,
+    #[serde(rename = "h")]
+    pub height: u16,
 }
 
 #[derive(Debug, Serialize)]
@@ -63,6 +66,12 @@ pub struct DoujinSearch {
     pub result: Vec<Doujin>,
     pub num_pages: Option<Value>,
     pub per_page: Option<Value>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Gallery {
+    pub doujin: Doujin,
+    pub pages: Vec<String>,
 }
 
 // Image URLs are in the form of:

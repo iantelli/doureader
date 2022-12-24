@@ -2,7 +2,7 @@ pub mod model;
 pub mod service;
 pub mod util;
 
-use model::Doujin;
+use model::{Doujin, Gallery};
 
 use tauri::{command, Builder};
 
@@ -40,6 +40,12 @@ async fn get_all_doujins(page: &str) -> Result<Vec<Doujin>, String> {
     Ok(doujin)
 }
 
+#[command]
+async fn get_doujin_gallery(doujin_id: &str) -> Result<Gallery, String> {
+    let gallery = Doujin::create_gallery(doujin_id).await.unwrap();
+    Ok(gallery)
+}
+
 fn main() {
     Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -48,6 +54,7 @@ fn main() {
             find_related_doujins,
             find_doujins_by_tag,
             get_all_doujins,
+            get_doujin_gallery
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

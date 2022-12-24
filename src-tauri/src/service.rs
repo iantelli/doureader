@@ -1,6 +1,6 @@
 use reqwest::header;
 
-use super::model::{Doujin, DoujinSearch};
+use super::model::{Doujin, DoujinSearch, Gallery};
 use super::util::CommandResult;
 
 impl Doujin {
@@ -100,5 +100,23 @@ impl Doujin {
             .await?;
 
         Ok(res.result)
+    }
+
+    pub async fn create_gallery(doujin_id: &str) -> CommandResult<Gallery> {
+        let doujin = Self::get_doujin(doujin_id).await?;
+        let mut pages = Vec::new();
+        for (i, page) in doujin.images.pages.iter().enumerate() {
+            let url = format!(
+                "https://i.nhentai.net/galleries/{}/{}.{}",
+                doujin.media_id,
+                i + 1,
+                page.ext
+            );
+            pages.push(url);
+        }
+
+        let gallery = Gallery { doujin, pages };
+
+        Ok(gallery)
     }
 }
