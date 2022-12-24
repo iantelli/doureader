@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use super::service::MaybeI32OrString;
+use super::util::MaybeI32OrString;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Doujin {
@@ -34,9 +34,16 @@ pub type DoujinPages = Vec<DoujinPage>;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DoujinPage {
-    pub t: String,
+    pub t: FileExtension,
     pub w: u16,
     pub h: u16,
+}
+
+#[derive(Debug, Serialize)]
+pub enum FileExtension {
+    Jpg,
+    Png,
+    Gif,
 }
 
 #[derive(Debug, Deserialize, Serialize)]

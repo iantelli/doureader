@@ -1,5 +1,6 @@
 pub mod model;
 pub mod service;
+pub mod util;
 
 use model::Doujin;
 
@@ -46,7 +47,7 @@ fn main() {
             find_doujins_by_search,
             find_related_doujins,
             find_doujins_by_tag,
-            get_all_doujins
+            get_all_doujins,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

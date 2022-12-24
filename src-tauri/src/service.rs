@@ -1,9 +1,7 @@
-use std::{fmt, num::NonZeroI32};
-
 use reqwest::header;
-use serde::{de::Visitor, ser::Serializer, Deserialize, Deserializer, Serialize};
 
 use super::model::{Doujin, DoujinSearch};
+use super::util::CommandResult;
 
 impl Doujin {
     pub async fn create_client() -> reqwest::Client {
@@ -102,69 +100,5 @@ impl Doujin {
             .await?;
 
         Ok(res.result)
-    }
-}
-
-
-#[derive(Debug, thiserror::Error)]
-pub enum CommandError {
-    #[error("reqwest error: {0}")]
-    Reqwest(#[from] reqwest::Error),
-}
-
-// for serializing errors so they can be sent to the frontend
-impl Serialize for CommandError {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        match self {
-            CommandError::Reqwest(e) => serializer.serialize_str(&e.to_string()),
-        }
-    }
-}
-
-pub type CommandResult<T, E = CommandError> = anyhow::Result<T, E>;
-
-#[derive(Clone, Copy, Debug, Serialize)]
-#[serde(transparent)]
-pub struct MaybeI32OrString(NonZeroI32);
-
-impl<'de> Deserialize<'de> for MaybeI32OrString {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        struct I32OrStringVisitor;
-
-        impl<'de> Visitor<'de> for I32OrStringVisitor {
-            type Value = MaybeI32OrString;
-
-            fn expecting(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
-                fmt.write_str("integer or string")
-            }
-
-            fn visit_u64<E>(self, val: u64) -> Result<Self::Value, E>
-            where
-                E: serde::de::Error,
-            {
-                match NonZeroI32::new(val as i32) {
-                    Some(val) => Ok(MaybeI32OrString(val)),
-                    None => Err(E::custom("invalid integer value")),
-                }
-            }
-
-            fn visit_str<E>(self, val: &str) -> Result<Self::Value, E>
-            where
-                E: serde::de::Error,
-            {
-                match val.parse::<u64>() {
-                    Ok(val) => self.visit_u64(val),
-                    Err(_) => Err(E::custom("failed to parse integer")),
-                }
-            }
-        }
-
-        deserializer.deserialize_any(I32OrStringVisitor)
     }
 }
