@@ -1,1 +1,4 @@
 export { default as Button } from "../components/atoms/button"
+export { default as BodyText } from "../components/atoms/bodyText"
+export { default as HeaderText } from "../components/atoms/headerText"
+export { default as SubHeaderText } from "../components/atoms/subHeaderText"
