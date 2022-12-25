@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { invoke } from "@tauri-apps/api/tauri"
-import { HeaderText, SubHeaderText, BodyText, Button, ImageComponent } from "../components"
+import { HeaderText, SubHeaderText, BodyText, Button, Image } from "../components"
 import { Gallery } from "../types"
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
       <SubHeaderText>What would you like to do?</SubHeaderText>
       <BodyText>View all Doujins</BodyText>
       <Button onClick={async () => test()}>Test</Button>
-      {isLoading ? <div>Loading...</div> : <ImageComponent src={gallery.pages[0]} width={300} height={400} />}
+      {isLoading ? <div>Loading...</div> : <Image src={gallery.pages[0]} />}
     </>
   )
 }
