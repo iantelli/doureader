@@ -35,15 +35,14 @@ impl Doujin {
     pub async fn get_doujin(doujin_id: &str) -> CommandResult<Self> {
         let url = format!("https://nhentai.net/api/gallery/{}", doujin_id);
         let client = Self::create_client().await;
-        let res = client.get(url).send().await?;
 
-        let body = res.json::<Self>().await?;
+        let res = client.get(url).send().await?.json::<Self>().await?;
 
-        Ok(body)
+        Ok(res)
     }
 
     // search for a doujin by query - 25 per page
-    pub async fn search_doujin(query: &str, page: &str) -> CommandResult<Vec<Self>> {
+    pub async fn search_doujin(query: &str, page: &str) -> CommandResult<DoujinSearch> {
         let url = "https://nhentai.net/api/galleries/search";
         let client = Self::create_client().await;
 
@@ -56,21 +55,21 @@ impl Doujin {
             .json::<DoujinSearch>()
             .await?;
 
-        Ok(res.result)
+        Ok(res)
     }
 
     // search for related doujins by doujin id
-    pub async fn related_doujin(doujin_id: &str) -> CommandResult<Vec<Self>> {
+    pub async fn related_doujin(doujin_id: &str) -> CommandResult<DoujinSearch> {
         let url = format!("https://nhentai.net/api/gallery/{}/related", doujin_id);
         let client = Self::create_client().await;
 
         let res = client.get(url).send().await?.json::<DoujinSearch>().await?;
 
-        Ok(res.result)
+        Ok(res)
     }
 
     // finds doujins by tag id - 25 per page
-    pub async fn tag_doujin(tag_id: &str, page: &str) -> CommandResult<Vec<Self>> {
+    pub async fn tag_doujin(tag_id: &str, page: &str) -> CommandResult<DoujinSearch> {
         let url = "https://nhentai.net/api/galleries/tagged";
         let client = Self::create_client().await;
 
@@ -83,11 +82,11 @@ impl Doujin {
             .json::<DoujinSearch>()
             .await?;
 
-        Ok(res.result)
+        Ok(res)
     }
 
     // gets all doujins - 25 per page
-    pub async fn get_all_doujin(page: &str) -> CommandResult<Vec<Self>> {
+    pub async fn get_all_doujin(page: &str) -> CommandResult<DoujinSearch> {
         let url = "https://nhentai.net/api/galleries/all";
         let client = Self::create_client().await;
 
@@ -99,7 +98,7 @@ impl Doujin {
             .json::<DoujinSearch>()
             .await?;
 
-        Ok(res.result)
+        Ok(res)
     }
 
     pub async fn create_gallery(doujin_id: &str) -> CommandResult<Gallery> {
