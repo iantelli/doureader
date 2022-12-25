@@ -9,12 +9,7 @@ type ButtonProps = {
 export default function ({ children, textColor, buttonColor, onClick, className }: ButtonProps) {
   return (
     <button
-      className={[
-        textColor ?? "text-white",
-        buttonColor ?? "bg-rose-600",
-        "px-4 py-2 rounded-sm font-sub",
-        className ?? "",
-      ].join(" ")}
+      className={[textColor ?? "text-white", buttonColor ?? "bg-rose-600", "px-4 py-2", className ?? ""].join(" ")}
       onClick={onClick}
     >
       {children}

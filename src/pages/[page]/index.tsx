@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/tauri"
 import { useEffect, useState } from "react"
-import { HeaderText, SubHeaderText, BodyText } from "../../components"
+import { HeaderText, SubHeaderText, BodyText, Image } from "../../components"
 import { useRouter } from "next/router"
 import { DoujinSearch, Doujin } from "../../types"
 
@@ -19,6 +19,10 @@ export default function Browse() {
       setLoading(false)
     })()
   }, [])
+
+  const createThumb = (mediaId: string, ext: string) => {
+    return `https://t.nhentai.net/galleries/${mediaId}/thumb.${ext.toLowerCase()}`
+  }
   return (
     <>
       <HeaderText>Browse</HeaderText>
@@ -28,7 +32,10 @@ export default function Browse() {
       ) : (
         <>
           {doujins.result.map((doujin: Doujin) => (
-            <BodyText key={doujin.id}>{doujin.title.pretty}</BodyText>
+            <>
+              <BodyText key={doujin.id}>{doujin.title.pretty}</BodyText>
+              <Image src={createThumb(doujin.media_id, doujin.images.cover.t)} width={200} />
+            </>
           ))}
         </>
       )}
