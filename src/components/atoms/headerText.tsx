@@ -1,5 +1,3 @@
-import { twMerge } from "tailwind-merge"
-
 type HeaderTextProps = {
   children: React.ReactNode
   textSize?: string
@@ -10,12 +8,12 @@ type HeaderTextProps = {
 export default function ({ children, textSize, textColor, className }: HeaderTextProps) {
   return (
     <h1
-      className={twMerge(
+      className={[
         textSize ?? "text-4xl",
         textColor ?? "text-white",
         "font-display font-semibold",
-        className ?? ""
-      )}
+        className ?? "",
+      ].join(" ")}
     >
       {children}
     </h1>

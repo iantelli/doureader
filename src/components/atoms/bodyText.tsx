@@ -1,5 +1,3 @@
-import { twMerge } from "tailwind-merge"
-
 type BodyTextProps = {
   children: React.ReactNode
   textSize?: string
@@ -9,7 +7,7 @@ type BodyTextProps = {
 
 export default function ({ children, textSize, textColor, className }: BodyTextProps) {
   return (
-    <p className={twMerge(textSize ?? "text-base", textColor ?? "text-white", "font-body", className ?? "")}>
+    <p className={[textSize ?? "text-base", textColor ?? "text-white", "font-body", className ?? ""].join(" ")}>
       {children}
     </p>
   )

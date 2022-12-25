@@ -1,5 +1,4 @@
 import Image from "next/future/image"
-import { twMerge } from "tailwind-merge"
 
 type ImageProps = {
   src: string
@@ -11,6 +10,6 @@ type ImageProps = {
 
 export default function ({ src, alt, width, height, className }: ImageProps) {
   return (
-    <Image src={src} alt={alt} width={width ?? 400} height={height ?? 800} className={twMerge("flex", className)} />
+    <Image src={src} alt={alt} width={width ?? 400} height={height ?? 800} className={["flex", className].join(" ")} />
   )
 }
