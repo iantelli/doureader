@@ -1,24 +1,26 @@
-import { useState, useEffect } from "react"
-import { invoke } from "@tauri-apps/api/tauri"
 import { HeaderText, SubHeaderText, BodyText, Button, Image } from "../components"
-import { Gallery } from "../types"
+import { useRouter } from "next/router"
+import { UrlObject } from "url"
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [gallery, setGallery] = useState(null)
-  async function test() {
-    const gallery = (await invoke("get_doujin_gallery", { doujinId: "177013" })) as Gallery
-    console.log(gallery)
-    setGallery(gallery)
-    setIsLoading(false)
+  const router = useRouter()
+  const handleClick = (page: string | UrlObject) => {
+    router.push(page)
   }
   return (
-    <>
-      <HeaderText>Welcome to Doureader!</HeaderText>
-      <SubHeaderText>What would you like to do?</SubHeaderText>
-      <BodyText>View all Doujins</BodyText>
-      <Button onClick={async () => test()}>Test</Button>
-      {isLoading ? <div>Loading...</div> : <Image src={gallery.pages[0]} />}
-    </>
+    <div className={"flex w-screen h-screen justify-center items-center text-center"}>
+      <div className={"flex flex-col bg-zinc-800 p-10 rounded-md"}>
+        <HeaderText>Doureader</HeaderText>
+        <div className={"m-12"}>
+          <Image src={"/logo.svg"} />
+        </div>
+        <Button className="mt-6" onClick={() => handleClick("/1")}>
+          Browse
+        </Button>
+        <Button className="mt-6" onClick={() => handleClick("/library")}>
+          Library
+        </Button>
+      </div>
+    </div>
   )
 }

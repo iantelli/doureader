@@ -1,15 +1,15 @@
-import Image from "next/image"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 import { invoke } from "@tauri-apps/api/tauri"
-import { Gallery } from "../../types"
-import { Button } from "../../components"
+import { Gallery } from "../../../types"
+import { Button } from "../../../components"
 
 export default function DoujinPage() {
-  const [doujin, setDoujin] = useState<Gallery>(null)
-  const [loading, setLoading] = useState(true)
   const router = useRouter()
   const { doujinId } = router.query
+
+  const [doujin, setDoujin] = useState<Gallery>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     ;(async () => {

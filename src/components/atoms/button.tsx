@@ -1,5 +1,3 @@
-import { twMerge } from "tailwind-merge"
-
 type ButtonProps = {
   children: React.ReactNode
   textColor?: string
@@ -13,8 +11,8 @@ export default function ({ children, textColor, buttonColor, onClick, className 
     <button
       className={[
         textColor ?? "text-white",
-        buttonColor ?? "bg-stone-700",
-        "px-4 py-2 rounded-md",
+        buttonColor ?? "bg-rose-600",
+        "px-4 py-2 rounded-sm font-sub",
         className ?? "",
       ].join(" ")}
       onClick={onClick}
