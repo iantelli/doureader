@@ -48,7 +48,7 @@ export interface DoujinSearch {
 
 export interface Gallery {
   doujin: Doujin
-  urls: Array<string>
+  pages: Array<string>
 }
 
 // Image URLs are in the form of:

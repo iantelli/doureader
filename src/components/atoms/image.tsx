@@ -10,5 +10,7 @@ type ImageProps = {
 }
 
 export default function ({ src, alt, width, height, className }: ImageProps) {
-  return <Image src={src} alt={alt} width={width} height={height} className={twMerge("rounded", className ?? "")} />
+  return (
+    <Image src={src} alt={alt ?? ""} width={width} height={height} className={twMerge("rounded", className ?? "")} />
+  )
 }
