@@ -24,8 +24,8 @@ export default function Browse() {
     return `https://t.nhentai.net/galleries/${mediaId}/thumb.${ext.toLowerCase()}`
   }
   return (
-    <div className="flex mx-auto my-6 w-5/6 h-5/6 justify-center items-center text-center">
-      <div className="flex justify-center flex-wrap bg-zinc-800">
+    <div className="flex mx-auto my-6 w-5/6 h-auto text-center">
+      <div className="flex justify-center flex-wrap bg-zinc-800 py-6">
         {loading ? (
           <p>Loading...</p>
         ) : (
