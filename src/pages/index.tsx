@@ -1,4 +1,4 @@
-import { HeaderText, SubHeaderText, BodyText, Button, Image } from "../components"
+import { HeaderText, SubHeaderText, Button, Image } from "../components"
 import { useRouter } from "next/router"
 import { UrlObject } from "url"
 
@@ -12,7 +12,7 @@ export default function App() {
       <div className={"flex flex-col bg-zinc-800 p-10 rounded-md"}>
         <HeaderText>Doureader</HeaderText>
         <div className={"m-10"}>
-          <Image src={"/logo.svg"} />
+          <Image src={"/logo.svg"} width={"w-80"} />
         </div>
         <Button className="mt-4" onClick={() => handleClick("/1")}>
           <SubHeaderText>Browse</SubHeaderText>

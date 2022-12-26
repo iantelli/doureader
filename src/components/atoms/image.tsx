@@ -3,13 +3,12 @@ import Image from "next/future/image"
 type ImageProps = {
   src: string
   alt?: string
-  width?: number
-  height?: number
+  width?: string
   className?: string
 }
 
-export default function ({ src, alt, width, height, className }: ImageProps) {
+export default function ({ src, alt, width, className }: ImageProps) {
   return (
-    <Image src={src} alt={alt} width={width ?? 400} height={height ?? 800} className={["flex", className].join(" ")} />
+    <Image src={src} alt={alt} width={0} height={0} className={["flex h-auto", width ?? "w-80", className].join(" ")} />
   )
 }
