@@ -42,7 +42,7 @@ impl Doujin {
     }
 
     // search for a doujin by query - 25 per page
-    pub async fn search_doujin(query: &str, page: &str) -> CommandResult<DoujinSearch> {
+    pub async fn search_doujin(query: &str, page: &str, sort: &str) -> CommandResult<DoujinSearch> {
         let url = "https://nhentai.net/api/galleries/search";
         let client = Self::create_client().await;
 
@@ -50,6 +50,7 @@ impl Doujin {
             .get(url)
             .query(&[("query", query)])
             .query(&[("page", page)])
+            .query(&[("sort", sort)])
             .send()
             .await?
             .json::<DoujinSearch>()
