@@ -34,7 +34,7 @@ export default function Browse() {
       ) : (
         <div className="flex flex-row flex-wrap bg-zinc-800 p-6 rounded-md my-4">
           <div className="flex flex-col mb-6 mx-2">
-            <HeaderText textColor={"text-rose-600"}>Popular Today</HeaderText>
+            <HeaderText>Popular Today</HeaderText>
           </div>
           <div className="flex flex-row flex-wrap">
             {popularDoujins.map((doujin: Doujin) => (
@@ -48,7 +48,7 @@ export default function Browse() {
       ) : (
         <div className="flex flex-row flex-wrap bg-zinc-800 p-6 rounded-md my-4">
           <div className="flex flex-col mb-6 mx-2">
-            <HeaderText textColor={"text-rose-600"}>New Uploads</HeaderText>
+            <HeaderText>New Uploads</HeaderText>
           </div>
           <div className="flex flex-row flex-wrap">
             {doujins.result.map((doujin: Doujin) => (

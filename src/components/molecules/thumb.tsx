@@ -1,4 +1,4 @@
-import { HeaderText, SubHeaderText, BodyText, Image, Link } from ".."
+import { HeaderText, SubHeaderText, Image, Link } from ".."
 import { Doujin } from "../../types"
 import moment from "moment"
 
@@ -19,28 +19,35 @@ export default function ({ src, doujin }: ThumbProps) {
       case "chinese": {
         return "/assets/icons/china.png"
       }
+      default: {
+        return "/assets/icons/unknown.png"
+      }
     }
   }
   return (
     <Link href={`/gallery/${doujin.id}`}>
-      <div className="flex flex-col">
-        <Image src={src} alt={doujin.title.pretty} width={"w-72"} className={"rounded-t-md mx-2"} />
-        <div className="flex flex-row justify-between text-start w-72 mx-2 mb-4 p-2 bg-zinc-700 rounded-b-md">
-          <div className="flex flex-col justify-start text-start">
-            <HeaderText textSize={"text-sm"} className="mb-1">
-              {doujin.title.pretty}
-            </HeaderText>
-            <BodyText textSize={"text-xs"} textColor={"text-zinc-400"}>
-              {doujin.num_pages} pages
-            </BodyText>
-          </div>
-          <div className="flex flex-col text-end w-36">
-            <SubHeaderText textSize={"text-xs"} textColor={"text-zinc-400"}>
+      <div className="relative">
+        <Image src={src} alt={doujin.title.pretty} width={"w-72"} className={"inset-0 z-0 rounded-md m-2"} />
+
+        <div className="w-72 ml-2 p-3 opacity-0 hover:opacity-100 hover:backdrop-blur-sm backdrop-grayscale duration-500 rounded-md absolute inset-0">
+          <Image
+            src={checkCountry(
+              doujin.tags.filter((tag) => tag.type === "language").filter((tag) => tag.name !== "translated")[0].name
+            )}
+            width={"w-6"}
+          />
+          <HeaderText textSize="text-2xl" textColor="text-rose-600">
+            {doujin.title.pretty.slice(0, 20) + "..."}
+          </HeaderText>
+          <div className="absolute bottom-0 right-0 p-3">
+            <SubHeaderText textSize={"text-md"} textColor="text-rose-500">
               {moment(doujin.upload_date * 1000).fromNow()}
             </SubHeaderText>
-            <div className="flex flex-row justify-end mt-1">
-              <Image src={checkCountry(doujin.tags.filter((tag) => tag.type === "language")[0].name)} width="w-4" />
-            </div>
+          </div>
+          <div className="absolute bottom-0 left-0 p-3">
+            <SubHeaderText textSize={"text-lg"} textColor="text-rose-500">
+              {doujin.num_pages} pages
+            </SubHeaderText>
           </div>
         </div>
       </div>

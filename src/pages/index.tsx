@@ -9,7 +9,7 @@ export default function App() {
   }
   return (
     <div className={"flex flex-row w-screen h-screen justify-center items-center text-center"}>
-      <div className={"flex flex-col justify-between bg-zinc-800 p-10 rounded-md w-5/6"}>
+      <div className={"flex flex-col justify-between bg-zinc-800 p-10 rounded-md w-4/6"}>
         <HeaderText>Doureader</HeaderText>
         <div className={"flex flex-row justify-center m-10"}>
           <div className={"flex flex-col"}>

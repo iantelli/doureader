@@ -8,7 +8,5 @@ type ImageProps = {
 }
 
 export default function ({ src, alt, width, className }: ImageProps) {
-  return (
-    <Image src={src} alt={alt} width={0} height={0} className={["flex h-auto", width ?? "w-80", className].join(" ")} />
-  )
+  return <Image src={src} alt={alt} width={0} height={0} className={["h-auto", width ?? "w-80", className].join(" ")} />
 }
