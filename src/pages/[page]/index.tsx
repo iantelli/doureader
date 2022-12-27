@@ -33,7 +33,7 @@ export default function Browse() {
         <p>Loading...</p>
       ) : (
         <div className="flex flex-row flex-wrap bg-zinc-800 p-6 rounded-md my-4">
-          <div className="flex flex-col m-2">
+          <div className="flex flex-col mb-6 mx-2">
             <HeaderText textColor={"text-rose-600"}>Popular Today</HeaderText>
           </div>
           <div className="flex flex-row flex-wrap">
@@ -47,7 +47,7 @@ export default function Browse() {
         <p>Loading...</p>
       ) : (
         <div className="flex flex-row flex-wrap bg-zinc-800 p-6 rounded-md my-4">
-          <div className="flex flex-col m-2">
+          <div className="flex flex-col mb-6 mx-2">
             <HeaderText textColor={"text-rose-600"}>New Uploads</HeaderText>
           </div>
           <div className="flex flex-row flex-wrap">
