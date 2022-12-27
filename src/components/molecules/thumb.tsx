@@ -8,22 +8,40 @@ type ThumbProps = {
 }
 
 export default function ({ src, doujin }: ThumbProps) {
+  const checkCountry = (country: string) => {
+    switch (country) {
+      case "english": {
+        return "/assets/icons/english.png"
+      }
+      case "japanese": {
+        return "/assets/icons/japan.png"
+      }
+      case "chinese": {
+        return "/assets/icons/china.png"
+      }
+    }
+  }
   return (
     <Link href={`/gallery/${doujin.id}`}>
-      <div className="flex w-80 m-2">
-        <div className="flex flex-col justify-start text-center">
-          <div className="flex flex-row">
-            <Image src={src} alt={doujin.title.pretty} className={"rounded-t-md"} />
-          </div>
-          <div className="flex flex-col bg-zinc-700 rounded-b-md">
-            <HeaderText textSize="text-lg">{doujin.title.pretty}</HeaderText>
-            <SubHeaderText textSize="text-sm" textColor="text-zinc-300">
-              {doujin.tags.filter((tag) => tag.type === "artist")[0]?.name ?? "unknown"}
-            </SubHeaderText>
-            <BodyText textSize="text-sm" textColor="text-zinc-500">
+      <div className="flex flex-col">
+        <Image src={src} alt={doujin.title.pretty} width={"w-72"} className={"rounded-lg m-2"} />
+        <div className="flex flex-row justify-between text-start w-72 mx-2">
+          <HeaderText textSize={"text-sm"} className="w-4/6">
+            {doujin.title.pretty}
+          </HeaderText>
+          <div className="flex flex-col justify-start text-start">
+            <SubHeaderText textSize={"text-xs"} textColor={"text-zinc-400"}>
               {moment(doujin.upload_date * 1000).fromNow()}
-            </BodyText>
+            </SubHeaderText>
+            <div className="flex flex-row justify-end">
+              <Image src={checkCountry(doujin.tags.filter((tag) => tag.type === "language")[0].name)} width="w-4" />
+            </div>
           </div>
+        </div>
+        <div className="flex flex-row justify-between text-start mb-4 mx-2">
+          <BodyText textSize={"text-xs"} textColor={"text-zinc-400"}>
+            {doujin.num_pages} pages
+          </BodyText>
         </div>
       </div>
     </Link>

@@ -8,11 +8,13 @@ export default function App() {
     router.push(page)
   }
   return (
-    <div className={"flex w-screen h-screen justify-center items-center text-center"}>
-      <div className={"flex flex-col bg-zinc-800 p-10 rounded-md"}>
+    <div className={"flex flex-row w-screen h-screen justify-center items-center text-center"}>
+      <div className={"flex flex-col justify-between bg-zinc-800 p-10 rounded-md w-5/6"}>
         <HeaderText>Doureader</HeaderText>
-        <div className={"m-10"}>
-          <Image src={"/logo.svg"} width={"w-80"} />
+        <div className={"flex flex-row justify-center m-10"}>
+          <div className={"flex flex-col"}>
+            <Image src={"/logo.svg"} width={"w-80"} />
+          </div>
         </div>
         <Button className="mt-4" onClick={() => handleClick("/1")}>
           <SubHeaderText>Browse</SubHeaderText>
