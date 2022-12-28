@@ -28,35 +28,31 @@ export default function Browse() {
     return `https://t.nhentai.net/galleries/${mediaId}/thumb.${ext.toLowerCase()}`
   }
   return (
-    <div className="flex flex-col mx-auto my-6 w-5/6 h-auto">
-      {popularLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="flex flex-row flex-wrap bg-zinc-800 p-6 rounded-md my-4">
-          <div className="flex flex-col mb-6 mx-2">
-            <HeaderText>Popular Today</HeaderText>
-          </div>
-          <div className="flex flex-row flex-wrap">
-            {popularDoujins.map((doujin: Doujin) => (
-              <Thumb key={doujin.id} src={createThumb(doujin.media_id, doujin.images.cover.t)} doujin={doujin} />
-            ))}
-          </div>
+    <div className={"flex flex-col"}>
+      <div className={"flex flex-col text-center"}>
+        <HeaderText className="mt-8 mb-4">Popular Today</HeaderText>
+        <div className={"flex flex-row flex-wrap justify-center"}>
+          {popularLoading ? (
+            <div>Loading...</div>
+          ) : (
+            popularDoujins.map((doujin: Doujin) => {
+              return <Thumb src={createThumb(doujin.media_id, doujin.images.cover.t)} doujin={doujin} />
+            })
+          )}
         </div>
-      )}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="flex flex-row flex-wrap bg-zinc-800 p-6 rounded-md my-4">
-          <div className="flex flex-col mb-6 mx-2">
-            <HeaderText>New Uploads</HeaderText>
-          </div>
-          <div className="flex flex-row flex-wrap">
-            {doujins.result.map((doujin: Doujin) => (
-              <Thumb key={doujin.id} src={createThumb(doujin.media_id, doujin.images.cover.t)} doujin={doujin} />
-            ))}
-          </div>
+      </div>
+      <div className={"flex flex-col text-center"}>
+        <HeaderText className="mt-8 mb-4">New Uploads</HeaderText>
+        <div className={"flex flex-row flex-wrap justify-center"}>
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            doujins.result.map((doujin: Doujin) => {
+              return <Thumb src={createThumb(doujin.media_id, doujin.images.cover.t)} doujin={doujin} />
+            })
+          )}
         </div>
-      )}
+      </div>
     </div>
   )
 }

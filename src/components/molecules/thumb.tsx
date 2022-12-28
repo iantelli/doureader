@@ -33,6 +33,7 @@ export default function ({ src, doujin }: ThumbProps) {
             src={checkCountry(
               doujin.tags.filter((tag) => tag.type === "language").filter((tag) => tag.name !== "translated")[0].name
             )}
+            alt={"language"}
             width={"w-6"}
           />
           <HeaderText textSize="text-2xl">{doujin.title.pretty}</HeaderText>
