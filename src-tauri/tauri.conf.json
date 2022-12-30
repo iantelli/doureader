@@ -60,10 +60,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "minHeight": 600,
+        "minHeight": 768,
         "resizable": true,
         "title": "doureader",
-        "minWidth": 800
+        "minWidth": 1024
       }
     ]
   }

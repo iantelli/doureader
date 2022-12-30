@@ -29,8 +29,8 @@ export default function Browse() {
   }
   return (
     <div className={"flex flex-col"}>
-      <div className={"flex flex-col text-center"}>
-        <HeaderText className="mt-8 mb-4">Popular Today</HeaderText>
+      <div className={"flex flex-col text-center bg-zinc-800 m-12 rounded-xl py-8"}>
+        <HeaderText className="my-4">Popular Today</HeaderText>
         <div className={"flex flex-row flex-wrap justify-center"}>
           {popularLoading ? (
             <div>Loading...</div>
@@ -41,9 +41,9 @@ export default function Browse() {
           )}
         </div>
       </div>
-      <div className={"flex flex-col text-center"}>
-        <HeaderText className="mt-8 mb-4">New Uploads</HeaderText>
-        <div className={"flex flex-row flex-wrap justify-center"}>
+      <div className={"flex flex-col text-center bg-zinc-800 m-12 rounded-xl py-8"}>
+        <HeaderText className="my-4">New Uploads</HeaderText>
+        <div className={"flex flex-row flex-wrap justify-center "}>
           {loading ? (
             <div>Loading...</div>
           ) : (
