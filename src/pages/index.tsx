@@ -13,7 +13,7 @@ export default function App() {
         <HeaderText>Doureader</HeaderText>
         <div className={"flex flex-row justify-center m-10"}>
           <div className={"flex flex-col"}>
-            <Image src={"/logo.svg"} width={"w-80"} />
+            <Image src={"/logo.svg"} width={"w-80"} alt={"logo"} />
           </div>
         </div>
         <div className={"flex flex-col justify-center"}>
