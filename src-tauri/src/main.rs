@@ -1,10 +1,10 @@
+use tauri::{command, Builder};
+
 pub mod model;
 pub mod service;
 pub mod util;
 
 use model::{Doujin, DoujinSearch, Gallery};
-
-use tauri::{command, Builder};
 
 #[cfg_attr(
     all(not(debug_assertions), target_os = "windows"),
