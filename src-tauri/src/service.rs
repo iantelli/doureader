@@ -9,18 +9,14 @@ impl Doujin {
         headers.insert(
             "User-Agent",
             header::HeaderValue::from_static(
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
             ),
         );
         headers.insert(
             "Cookie",
             header::HeaderValue::from_static(
-                "cf_clearance=85LizHMis2uWEAmlkcwM2ogzfBkwd2Kd7NcDb6L5OIM-1671711549-0-150",
+                "cf_clearance=ZA7unlMTxKFSFnIldqTY707kWem2WvIQ82R71xUVRhk-1672378956-0-150",
             ),
-        );
-        headers.insert(
-            "content-type",
-            header::HeaderValue::from_static("application/json"),
         );
 
         let client = reqwest::Client::builder()
